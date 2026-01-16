@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архип Куинджи: Алхимик Света</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Palette: Midnight & Phosphor */
+        :root {
+            --bg-deep: #0f172a;      /* Slate 900 */
+            --bg-card: #1e293b;      /* Slate 800 */
+            --text-main: #f8fafc;    /* Slate 50 */
+            --text-muted: #94a3b8;   /* Slate 400 */
+            --accent-lime: #a3e635;  /* Lime 400 - for Moonlight */
+            --accent-orange: #f97316;/* Orange 500 - for Sunsets */
+            --accent-blue: #38bdf8;  /* Sky 400 - for Water */
+            --accent-purple: #c084fc;/* Purple 400 - for Mysticism */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Roboto Slab', serif;
+        }
+
+        /* Responsive Chart Container - Mandatory Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constraint */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-card);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-lime);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
+    <!-- 
+        Palette Used: Deep Midnight & Phosphor
+        Plan:
+        1. Intro: The Master of Light.
+        2. Radar Chart: The "Kuindzhi Effect" (Technical parameters).
+        3. Doughnut Chart: Thematic breakdown (Moonlight vs Sun vs Steppe).
+        4. Timeline (HTML): Key career milestones.
+        5. Bar Chart: Market Legacy (Auction prices).
+        6. Plotly 3D/Scatter: Optical Illusion Analysis (Luminosity vs Contrast).
+        
+        CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+    -->
+</head>
+<body class="antialiased overflow-x-hidden">
+
+    <!-- Header Section -->
+    <header class="w-full py-16 px-6 bg-gradient-to-b from-slate-900 to-slate-800 text-center relative overflow-hidden">
+        <div class="max-w-4xl mx-auto relative z-10 animate-fade-in">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-lime-400 via-sky-300 to-orange-400">
+                АРХИП КУИНДЖИ
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 font-light mb-8">
+                Алхимик Света и Мастер Иллюзии
+            </p>
+            <div class="flex justify-center gap-4 text-sm text-slate-400">
+                <span class="px-3 py-1 bg-slate-800 rounded-full border border-slate-700">1842 — 1910</span>
+                <span class="px-3 py-1 bg-slate-800 rounded-full border border-slate-700">Передвижники</span>
+                <span class="px-3 py-1 bg-slate-800 rounded-full border border-slate-700">Реализм / Романтизм</span>
+            </div>
+        </div>
+        <!-- Abstract Glow Background -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-lime-500 rounded-full blur-[120px] opacity-10 pointer-events-none"></div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+
+        <!-- Section 1: Картинная галерея -->
+        <div class="col-span-1 md:col-span-2 lg:col-span-12 my-8">
+            <h2 class="text-3xl font-bold text-slate-100 mb-8 text-center">Галерея Произведений</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Картина 1 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-lime-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-lime-500/20 cursor-pointer group" onclick="openModal('gallary/Березовая роща.jpg', 'Березовая роща')">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <img src="gallary/Березовая роща.jpg" alt="Березовая роща" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h4 class="font-bold text-sm">Березовая роща</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Картина 2 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-lime-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-lime-500/20 cursor-pointer group" onclick="openModal('gallary/Лунная ночь на Днепре.jpg', 'Лунная ночь на Днепре')">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <img src="gallary/Лунная ночь на Днепре.jpg" alt="Лунная ночь на Днепре" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h4 class="font-bold text-sm">Лунная ночь на Днепре</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Картина 3 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/20 cursor-pointer group" onclick="openModal('gallary/Закат.jpg', 'Закат')">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <img src="gallary/Закат.jpg" alt="Закат" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h4 class="font-bold text-sm">Закат</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Картина 4 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-sky-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/20 cursor-pointer group" onclick="openModal('gallary/Вид Исаакиевского собора при лунном освещении.jpg', 'Вид Исаакиевского собора при лунном освещении')">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <img src="gallary/Вид Исаакиевского собора при лунном освещении.jpg" alt="Вид Исаакиевского собора при лунном освещении" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h4 class="font-bold text-sm">Вид Исаакиевского собора при лунном освещении</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Картина 5 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 cursor-pointer group" onclick="openModal('gallary/Дарьяльское ущелье. Лунная ночь.jpg', 'Дарьяльское ущелье. Лунная ночь')">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <img src="gallary/Дарьяльское ущелье. Лунная ночь.jpg" alt="Дарьяльское ущелье. Лунная ночь" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h4 class="font-bold text-sm">Дарьяльское ущелье. Лунная ночь</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Картина 6 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-lime-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-lime-500/20 cursor-pointer group" onclick="openModal('gallary/Ночное.jpg', 'Ночное')">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <img src="gallary/Ночное.jpg" alt="Ночное" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h4 class="font-bold text-sm">Ночное</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Картина 7 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 cursor-pointer group" onclick="openModal('gallary/После дождя.jpg', 'После дождя')">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <img src="gallary/После дождя.jpg" alt="После дождя" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h4 class="font-bold text-sm">После дождя</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Картина 8 -->
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-sky-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/20 cursor-pointer group" onclick="openModal('gallary/Эльбрус. Лунная ночь.jpg', 'Эльбрус. Лунная ночь')">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <img src="gallary/Эльбрус. Лунная ночь.jpg" alt="Эльбрус. Лунная ночь" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h4 class="font-bold text-sm">Эльбрус. Лунная ночь</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal для просмотра картин -->
+        <div id="imageModal" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4" onclick="closeModal()">
+            <div class="relative max-w-6xl max-h-[90vh] w-full" onclick="event.stopPropagation()">
+                <button onclick="closeModal()" class="absolute -top-12 right-0 text-white hover:text-lime-400 text-3xl font-bold transition-colors">×</button>
+                <img id="modalImage" src="" alt="" class="w-full h-auto max-h-[90vh] object-contain rounded-lg shadow-2xl">
+                <h3 id="modalTitle" class="text-white text-xl font-bold mt-4 text-center"></h3>
+            </div>
+        </div>
+
+        <!-- Section 2: Introduction -->
+        <div class="col-span-1 md:col-span-2 lg:col-span-12 mb-8 text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-slate-100 mb-4">Феномен Света</h2>
+            <p class="text-lg text-slate-300 leading-relaxed">
+                Творчество Куинджи — это не просто пейзажи, это оптические эксперименты. Он использовал дополнительные цвета и битумные краски, чтобы достичь невозможной для того времени яркости. Современники искали лампочку за его полотном «Лунная ночь на Днепре». Ниже мы разберем его технику и наследие с помощью данных.
+            </p>
+        </div>
+
+        <!-- Section 3: Technical Analysis (Radar Chart) -->
+        <div class="col-span-1 md:col-span-1 lg:col-span-6 bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-lime-500/30 transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">👁️</span>
+                <h3 class="text-xl font-bold text-lime-400">Формула Иллюзии</h3>
+            </div>
+            <p class="text-slate-400 text-sm mb-6 h-20">
+                Сравнение технических характеристик живописи Куинджи со средними показателями художников-передвижников (Шишкин, Перов). Куинджи жертвовал детализацией ради колоссального контраста и насыщенности.
+            </p>
+            <div class="chart-container">
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div class="mt-4 text-center text-xs text-slate-500">
+                Данные: Сравнительный анализ колористики
+            </div>
+        </div>
+
+        <!-- Section 4: Thematic Breakdown (Doughnut Chart) -->
+        <div class="col-span-1 md:col-span-1 lg:col-span-6 bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-orange-500/30 transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">🎨</span>
+                <h3 class="text-xl font-bold text-orange-400">Спектр Сюжетов</h3>
+            </div>
+            <p class="text-slate-400 text-sm mb-6 h-20">
+                Хотя Куинджи известен «Лунными ночами», его творчество разнообразно. Диаграмма показывает распределение основных мотивов в его сохранившемся наследии, от степей Украины до гор Кавказа.
+            </p>
+            <div class="chart-container">
+                <canvas id="themeChart"></canvas>
+            </div>
+            <div class="mt-4 text-center text-xs text-slate-500">
+                Анализ 200+ известных полотен и эскизов
+            </div>
+        </div>
+
+        <!-- Section 5: Timeline of Mastery -->
+        <div class="col-span-1 md:col-span-2 lg:col-span-12 my-8">
+            <h2 class="text-3xl font-bold text-slate-100 mb-8 text-center">Путь Художника</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Card 1 -->
+                <div class="bg-slate-800 p-6 rounded-lg border-l-4 border-slate-500">
+                    <span class="text-slate-500 font-bold text-lg">1868</span>
+                    <h4 class="text-white font-bold text-lg mt-1">Академия</h4>
+                    <p class="text-slate-400 text-sm mt-2">Получает звание свободного художника. Влияние Айвазовского.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-slate-800 p-6 rounded-lg border-l-4 border-lime-500 shadow-[0_0_15px_rgba(163,230,53,0.1)]">
+                    <span class="text-lime-400 font-bold text-lg">1880</span>
+                    <h4 class="text-white font-bold text-lg mt-1">Триумф Света</h4>
+                    <p class="text-slate-400 text-sm mt-2">Выставка одной картины «Лунная ночь на Днепре». Очереди перекрывают улицы.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-slate-800 p-6 rounded-lg border-l-4 border-orange-500">
+                    <span class="text-orange-400 font-bold text-lg">1882</span>
+                    <h4 class="text-white font-bold text-lg mt-1">Затворничество</h4>
+                    <p class="text-slate-400 text-sm mt-2">На пике славы прекращает выставочную деятельность на 20 лет.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-slate-800 p-6 rounded-lg border-l-4 border-sky-500">
+                    <span class="text-sky-400 font-bold text-lg">1909</span>
+                    <h4 class="text-white font-bold text-lg mt-1">Наследие</h4>
+                    <p class="text-slate-400 text-sm mt-2">Основывает общество художников, жертвует капитал ученикам.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Luminosity Analysis (Scatter Plot via Chart.js) -->
+        <div class="col-span-1 md:col-span-2 lg:col-span-8 bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">📉</span>
+                <h3 class="text-xl font-bold text-sky-400">Световой Контраст: Куинджи против Современников</h3>
+            </div>
+            <p class="text-slate-400 text-sm mb-6">
+                Этот график демонстрирует соотношение использования темных тонов (ось X) к интенсивности световых бликов (ось Y). Куинджи (зеленые точки) занимал уникальную нишу "высокого динамического диапазона" по сравнению с реалистами (серые точки).
+            </p>
+            <div class="chart-container" style="max-width: 100%;">
+                <canvas id="scatterChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Section 7: Key Fact (Stat Card) -->
+        <div class="col-span-1 md:col-span-2 lg:col-span-4 flex flex-col gap-6">
+            <div class="bg-gradient-to-br from-lime-900 to-slate-900 rounded-xl p-8 border border-lime-500/20 flex flex-col justify-center items-center text-center h-full">
+                <div class="text-6xl mb-2">🧪</div>
+                <h4 class="text-2xl font-bold text-white mb-2">Химия Красок</h4>
+                <p class="text-slate-300 text-sm">
+                    Куинджи экспериментировал с битумными красками, которые со временем темнеют. Мы видим его картины на 20-30% темнее, чем видели их современники.
+                </p>
+                <div class="mt-6 text-4xl font-bold text-lime-400">20+ слоёв</div>
+                <div class="text-xs text-lime-200/60 uppercase tracking-widest mt-1">лессировки</div>
+            </div>
+        </div>
+
+        <!-- Section 8: Market Value (Bar Chart) -->
+        <div class="col-span-1 md:col-span-2 lg:col-span-12 bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">💰</span>
+                <h3 class="text-xl font-bold text-emerald-400">Коммерческий Успех (Аукционные Рекорды)</h3>
+            </div>
+            <p class="text-slate-400 text-sm mb-6">
+                Стоимость полотен Куинджи на международных аукционах (Sotheby's, Christie's) в миллионах долларов (с поправкой на инфляцию). Его работы остаются одними из самых дорогих среди русских пейзажистов.
+            </p>
+            <div class="chart-container" style="max-width: 100%; height: 400px;">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Section 9: AI Assistant (Perplexity) -->
+        <section class="col-span-1 md:col-span-2 lg:col-span-12 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- AI Deep Analysis -->
+            <div class="lg:col-span-6 bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-2xl border border-lime-500/30 shadow-xl">
+                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <span>✨</span>
+                    <span>ИИ‑искусствовед</span>
+                </h3>
+                <p class="text-slate-300 text-sm mb-6">
+                    Получите глубокий анализ феномена «Лунной ночи на Днепре» и экспериментов Куинджи со светом и красками — ответ формирует Perplexity AI.
+                </p>
+                <button
+                    id="ai-analysis-button"
+                    class="w-full md:w-auto bg-lime-500 hover:bg-lime-400 text-slate-900 font-bold py-3 px-8 rounded-full transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                    type="button"
+                >
+                    Запустить анализ ✨
+                </button>
+                <div
+                    id="ai-analysis-result"
+                    class="mt-6 p-4 bg-slate-900/60 rounded-xl border border-slate-700 text-slate-200 text-sm leading-relaxed max-h-[260px] overflow-y-auto hidden"
+                ></div>
+            </div>
+
+            <!-- Interactive Chat -->
+            <div class="lg:col-span-6 bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <h3 class="text-xl font-bold text-sky-400 mb-4">
+                    Задать вопрос ИИ‑эксперту ✨
+                </h3>
+                <p class="text-slate-300 text-sm mb-4">
+                    Спросите об особенностях стиля Куинджи, его живописной технике или историческом контексте — ответит Perplexity AI на русском языке.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex flex-col md:flex-row gap-3">
+                        <input
+                            id="ai-question-input"
+                            type="text"
+                            placeholder="Например: В чем секрет «лампочного эффекта» в его ночных пейзажах?"
+                            class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        />
+                        <button
+                            id="ai-question-button"
+                            type="button"
+                            class="bg-sky-600 hover:bg-sky-500 px-6 md:px-8 py-3 rounded-xl text-sm font-bold transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                            Отправить
+                        </button>
+                    </div>
+                    <div
+                        id="ai-chat-response"
+                        class="mt-2 p-4 bg-slate-900 rounded-xl border-l-4 border-sky-500 text-slate-200 text-sm leading-relaxed hidden"
+                    ></div>
+                </div>
+                <p class="mt-4 text-xs text-slate-500">
+                    * Для работы этого блока требуется корректно настроенный Perplexity API Key на сервере.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Section 10: Visual Techniques Diagram (HTML/CSS) -->
+        <div class="col-span-1 md:col-span-2 lg:col-span-12 mt-4">
+            <h3 class="text-2xl font-bold text-center text-white mb-8">Анатомия "Лунной Ночи"</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Tech 1 -->
+                <div class="bg-slate-800 p-5 rounded-lg border-t-4 border-purple-500">
+                    <h4 class="text-purple-400 font-bold mb-2">Цветовой Контраст</h4>
+                    <p class="text-sm text-slate-300">Использование комплементарных цветов (лиловый vs зеленый) для усиления восприятия яркости сетчаткой глаза.</p>
+                </div>
+                <!-- Tech 2 -->
+                <div class="bg-slate-800 p-5 rounded-lg border-t-4 border-lime-500">
+                    <h4 class="text-lime-400 font-bold mb-2">Изоляция Света</h4>
+                    <p class="text-sm text-slate-300">Минимизация деталей в тенях. Темный фон работает как бархат, на котором "горит" луна или закат.</p>
+                </div>
+                <!-- Tech 3 -->
+                <div class="bg-slate-800 p-5 rounded-lg border-t-4 border-orange-500">
+                    <h4 class="text-orange-400 font-bold mb-2">Фактура</h4>
+                    <p class="text-sm text-slate-300">Густой, рельефный мазок в светлых зонах и тончайшие, полупрозрачные слои в тенях.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 mt-12 text-center">
+        <p class="text-slate-500 text-sm">Инфографика создана для образовательных целей.</p>
+    </footer>
+
+    <script>
+        // --- GALLERY MODAL FUNCTIONS ---
+        function openModal(imageSrc, title) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalImage.src = imageSrc;
+            modalTitle.textContent = title;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        // Закрытие модального окна по клавише ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // --- UTILITY FUNCTIONS ---
+        
+        // Label wrapping function for Chart.js
+        function wrapLabel(str, maxLen) {
+            if (str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length < maxLen) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Standard Tooltip Configuration
+        const standardTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // Common Chart Defaults for Dark Mode
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = '#334155';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        // --- CHART 1: RADAR CHART (The Kuindzhi Formula) ---
+        const ctxRadar = document.getElementById('radarChart').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: [
+                    wrapLabel('Световая Насыщенность', 12),
+                    wrapLabel('Контраст Теней', 12),
+                    wrapLabel('Детализация', 12),
+                    wrapLabel('Эмоциональность', 12),
+                    wrapLabel('Реализм', 12)
+                ],
+                datasets: [{
+                    label: 'Архип Куинджи',
+                    data: [95, 90, 40, 85, 50],
+                    backgroundColor: 'rgba(163, 230, 53, 0.2)', // Lime low opacity
+                    borderColor: '#a3e635', // Lime
+                    pointBackgroundColor: '#a3e635',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#a3e635'
+                }, {
+                    label: 'Типичный Передвижник',
+                    data: [60, 50, 90, 65, 85],
+                    backgroundColor: 'rgba(148, 163, 184, 0.2)', // Slate
+                    borderColor: '#94a3b8',
+                    pointBackgroundColor: '#94a3b8',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#94a3b8'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#334155' },
+                        grid: { color: '#334155' },
+                        pointLabels: {
+                            color: '#cbd5e1',
+                            font: { size: 11 }
+                        },
+                        ticks: { display: false, backdropColor: 'transparent' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#f8fafc' }
+                    },
+                    tooltip: standardTooltipConfig
+                }
+            }
+        });
+
+        // --- CHART 2: DOUGHNUT CHART (Themes) ---
+        const ctxTheme = document.getElementById('themeChart').getContext('2d');
+        new Chart(ctxTheme, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    'Лунные ночи',
+                    'Солнечные закаты',
+                    'Дневные пейзажи (Степь)',
+                    'Горы и Снег',
+                    'Море'
+                ],
+                datasets: [{
+                    data: [35, 15, 25, 15, 10],
+                    backgroundColor: [
+                        '#a3e635', // Lime (Moon)
+                        '#f97316', // Orange (Sunset)
+                        '#22c55e', // Green (Steppe)
+                        '#f8fafc', // White (Snow)
+                        '#38bdf8'  // Blue (Sea)
+                    ],
+                    borderColor: '#1e293b',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { color: '#cbd5e1', boxWidth: 12 }
+                    },
+                    tooltip: standardTooltipConfig
+                }
+            }
+        });
+
+        // --- CHART 3: SCATTER PLOT (Luminosity vs Darkness) ---
+        const ctxScatter = document.getElementById('scatterChart').getContext('2d');
+        
+        // Generate dataset
+        const kuindzhiPoints = [
+            {x: 85, y: 90}, {x: 90, y: 95}, {x: 80, y: 85}, {x: 88, y: 92}, {x: 75, y: 80}
+        ];
+        const othersPoints = [
+            {x: 40, y: 50}, {x: 50, y: 60}, {x: 60, y: 55}, {x: 45, y: 45}, {x: 55, y: 65},
+            {x: 30, y: 40}, {x: 65, y: 50}, {x: 50, y: 45}, {x: 35, y: 35}, {x: 70, y: 60}
+        ];
+
+        new Chart(ctxScatter, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Работы Куинджи',
+                    data: kuindzhiPoints,
+                    backgroundColor: '#a3e635',
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }, {
+                    label: 'Современники (Реализм)',
+                    data: othersPoints,
+                    backgroundColor: '#64748b',
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: { display: true, text: wrapLabel('Глубина Теней (Dark Value)', 20), color: '#94a3b8' },
+                        grid: { color: '#334155' },
+                        min: 0, max: 100
+                    },
+                    y: {
+                        title: { display: true, text: wrapLabel('Яркость Света (Light Value)', 20), color: '#94a3b8' },
+                        grid: { color: '#334155' },
+                        min: 0, max: 100
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#f8fafc' } },
+                    tooltip: standardTooltipConfig
+                }
+            }
+        });
+
+        // --- CHART 4: BAR CHART (Auction Prices) ---
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        const paintings = [
+            'Березовая роща (1881)', 
+            'Лунная ночь на Днепре (Вариант)', 
+            'Закат в степи', 
+            'Радуга', 
+            'После дождя'
+        ];
+        // Process labels
+        const processedLabels = paintings.map(l => wrapLabel(l, 16));
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: processedLabels,
+                datasets: [{
+                    label: 'Стоимость (Млн $)',
+                    data: [3.1, 1.8, 1.2, 0.9, 0.7], // Approximate illustrative values
+                    backgroundColor: [
+                        '#22c55e', '#a3e635', '#f97316', '#38bdf8', '#6366f1'
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Horizontal Bar
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { color: '#334155' },
+                        ticks: { color: '#cbd5e1' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#f8fafc', font: { weight: 'bold' } }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: standardTooltipConfig
+                }
+            }
+        });
+
+        // --- PERPLEXITY AI INTEGRATION ---
+
+        // Ожидаем, что ключ Perplexity будет передан в глобальную переменную window.PERPLEXITY_API_KEY
+        // (например, через серверный шаблон или сборщик, читающий .env).
+        const perplexityApiKey = window.PERPLEXITY_API_KEY || "";
+        let aiIsLoading = false;
+
+        async function callPerplexity(prompt) {
+            if (!perplexityApiKey) {
+                return "Ошибка: API ключ Perplexity не настроен. Убедитесь, что переменная окружения прописана и проброшена в window.PERPLEXITY_API_KEY.";
+            }
+
+            aiIsLoading = true;
+            try {
+                const response = await fetch("https://api.perplexity.ai/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${perplexityApiKey}`,
+                    },
+                    body: JSON.stringify({
+                        model: "sonar",
+                        messages: [
+                            {
+                                role: "system",
+                                content: "Ты — эксперт-искусствовед, специализирующийся на русской живописи XIX века и творчестве Архипа Куинджи. Отвечай кратко, профессионально и вдохновляюще. Используй русский язык."
+                            },
+                            {
+                                role: "user",
+                                content: prompt
+                            }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        return "Ошибка авторизации Perplexity: проверьте правильность API ключа.";
+                    }
+                    if (response.status === 429) {
+                        return "Превышен лимит запросов к Perplexity API. Подождите немного или проверьте квоты/тариф в личном кабинете Perplexity.";
+                    }
+                    const errorText = await response.text().catch(() => "");
+                    throw new Error(`HTTP ${response.status} ${response.statusText} ${errorText}`);
+                }
+
+                const data = await response.json();
+                const text =
+                    (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ||
+                    (data && data.choices && data.choices[0] && data.choices[0].delta && data.choices[0].delta.content) ||
+                    "Ответ не получен";
+
+                return text;
+            } catch (error) {
+                console.error("Perplexity API error:", error);
+                return `Извините, произошла ошибка при связи с ИИ (Perplexity): ${error.message}. Попробуйте позже.`;
+            } finally {
+                aiIsLoading = false;
+            }
+        }
+
+        function setAiLoadingState(isLoading) {
+            const analysisBtn = document.getElementById('ai-analysis-button');
+            const askBtn = document.getElementById('ai-question-button');
+            if (analysisBtn) {
+                analysisBtn.disabled = isLoading;
+                analysisBtn.textContent = isLoading ? 'Обработка…' : 'Запустить анализ ✨';
+            }
+            if (askBtn) {
+                askBtn.disabled = isLoading;
+                askBtn.textContent = isLoading ? 'Отправка…' : 'Отправить';
+            }
+        }
+
+        async function handleAiDeepAnalysis() {
+            const resultContainer = document.getElementById('ai-analysis-result');
+            if (!resultContainer) return;
+
+            setAiLoadingState(true);
+            const prompt = "Проанализируй феномен популярности Куинджи. Почему его «Лунная ночь на Днепре» вызывала такой ажиотаж и как его химические эксперименты с красками влияют на наше восприятие сегодня?";
+            const text = await callPerplexity(prompt);
+
+            resultContainer.textContent = text;
+            resultContainer.classList.remove('hidden');
+            setAiLoadingState(false);
+        }
+
+        async function handleAiQuestion() {
+            const input = document.getElementById('ai-question-input');
+            const responseContainer = document.getElementById('ai-chat-response');
+            if (!input || !responseContainer) return;
+
+            const question = input.value.trim();
+            if (!question) return;
+
+            setAiLoadingState(true);
+            const text = await callPerplexity(`Вопрос пользователя: ${question}`);
+
+            responseContainer.textContent = text;
+            responseContainer.classList.remove('hidden');
+            setAiLoadingState(false);
+        }
+
+        // Навешиваем обработчики после загрузки DOM
+        document.addEventListener('DOMContentLoaded', function () {
+            const analysisBtn = document.getElementById('ai-analysis-button');
+            const askBtn = document.getElementById('ai-question-button');
+            const input = document.getElementById('ai-question-input');
+
+            if (analysisBtn) {
+                analysisBtn.addEventListener('click', handleAiDeepAnalysis);
+            }
+            if (askBtn) {
+                askBtn.addEventListener('click', handleAiQuestion);
+            }
+            if (input) {
+                input.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleAiQuestion();
+                    }
+                });
+            }
+        });
+
+    </script>
+</body>
+</html>

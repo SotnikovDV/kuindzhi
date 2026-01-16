@@ -1,0 +1,29 @@
+# Зависимости
+node_modules/
+
+# Переменные окружения
+.env
+.env.local
+
+# Логи
+*.log
+npm-debug.log*
+
+# Временные файлы
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Перенос в продакшен
+deploy.bat
+DEPLOY_INSTRUCTIONS.txt
+
+# Рабочая документация
+.docs/

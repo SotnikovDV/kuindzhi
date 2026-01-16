@@ -1,0 +1,25 @@
+{
+  "name": "kuindzhi-app",
+  "version": "1.0.0",
+  "description": "Архип Куинджи: Алхимик Света - Node.js приложение",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "kuindzhi",
+    "art",
+    "visualization"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

@@ -1,0 +1,533 @@
+/* Palette: Midnight & Phosphor */
+:root {
+    --bg-deep: #0f172a;      /* Slate 900 */
+    --bg-card: #1e293b;      /* Slate 800 */
+    --text-main: #f8fafc;    /* Slate 50 */
+    --text-muted: #94a3b8;   /* Slate 400 */
+    --accent-lime: #a3e635;  /* Lime 400 - for Moonlight */
+    --accent-orange: #f97316;/* Orange 500 - for Sunsets */
+    --accent-blue: #38bdf8;  /* Sky 400 - for Water */
+    --accent-purple: #c084fc;/* Purple 400 - for Mysticism */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+}
+
+h1, h2, h3 {
+    font-family: 'Roboto Slab', serif;
+}
+
+/* Responsive Chart Container - Mandatory Styling */
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Constraint */
+    margin-left: auto;
+    margin-right: auto;
+    height: 350px; /* Base height */
+    max-height: 400px;
+}
+
+@media (min-width: 768px) {
+    .chart-container {
+        height: 400px;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--bg-card);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-lime);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Picture Frame (Baguette) Styles */
+.picture-frame-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1rem;
+    background: var(--bg-deep);
+}
+
+.picture-frame {
+    position: relative;
+    display: inline-block;
+    padding: 24px;
+    background: linear-gradient(135deg, 
+        #2a1f14 0%, 
+        #3d2f1f 20%, 
+        #4a3826 40%, 
+        #5d4e37 60%, 
+        #4a3826 80%, 
+        #3d2f1f 100%);
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.9),
+        0 10px 30px rgba(0, 0, 0, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.08),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.7),
+        inset 0 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    transform: perspective(1000px) rotateX(2deg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* .picture-frame:hover {
+    transform: perspective(1000px) rotateX(0deg);
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.95),
+        0 15px 40px rgba(0, 0, 0, 0.8),
+        inset 0 3px 6px rgba(255, 255, 255, 0.3),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.7),
+        inset 0 0 25px rgba(212, 175, 55, 0.3);
+} */
+
+.picture-frame::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    background: linear-gradient(135deg, 
+        #1a130d 0%, 
+        #2a1f14 25%, 
+        #3d2f1f 50%, 
+        #2a1f14 75%, 
+        #1a130d 100%);
+    border-radius: 3px;
+    z-index: 1;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.picture-frame-inner {
+    position: relative;
+    z-index: 3;
+    padding: 18px;
+    background: linear-gradient(135deg, 
+        #3d2f1f 0%, 
+        #4a3826 20%, 
+        #5d4e37 40%, 
+        #6b5a3d 50%, 
+        #5d4e37 60%, 
+        #4a3826 80%, 
+        #3d2f1f 100%);
+    box-shadow: 
+        inset 0 2px 6px rgba(255, 255, 255, 0.1),
+        inset 0 -3px 10px rgba(0, 0, 0, 0.6),
+        inset 0 0 10px rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+}
+
+.picture-frame-inner::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    z-index: 4;
+    pointer-events: none;
+    border: 2px solid #3d2f1f;
+    border-radius: 2px;
+}
+
+.picture-frame-image {
+    position: relative;
+    z-index: 2;
+    margin: 5px;
+    display: block;
+    max-width: 100%;
+    height: auto;
+    box-shadow: 
+        0 6px 25px rgba(0, 0, 0, 0.7),
+        inset 0 0 0 2px rgba(0, 0, 0, 0.15),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #000;
+}
+
+/* Main painting audio controls (under the picture) */
+.moon-audio-controls {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.moon-audio-btn {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid rgba(148, 163, 184, 0.35); /* slate-400 */
+    background: linear-gradient(135deg,
+        rgba(15, 23, 42, 0.28),
+        rgba(51, 65, 85, 0.18)
+    );
+    color: rgba(226, 232, 240, 0.95); /* slate-200 */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: transform 120ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
+    opacity: 0.95;
+    user-select: none;
+}
+.moon-audio-btn--secondary {
+    width: 38px;
+    height: 38px;
+    opacity: 0.9;
+}
+.moon-audio-btn:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    border-color: rgba(163, 230, 53, 0.55); /* lime-400 */
+}
+.moon-audio-btn:active {
+    transform: translateY(0);
+}
+.moon-audio-btn:focus-visible {
+    outline: none;
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.35),
+        0 0 0 3px rgba(163, 230, 53, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.moon-audio-btn svg {
+    width: 22px;
+    height: 22px;
+}
+.moon-audio-btn--secondary svg {
+    width: 18px;
+    height: 18px;
+}
+
+.moon-audio-icon {
+    display: inline-flex;
+}
+.moon-audio-icon-pause {
+    display: none;
+}
+.moon-audio-btn.is-playing .moon-audio-icon-play {
+    display: none;
+}
+.moon-audio-btn.is-playing .moon-audio-icon-pause {
+    display: inline-flex;
+}
+@keyframes moonAudioPulse {
+    0% { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(163, 230, 53, 0.0), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+    60% { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), 0 0 0 10px rgba(163, 230, 53, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+    100% { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), 0 0 0 14px rgba(163, 230, 53, 0.0), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+}
+.moon-audio-btn.is-playing {
+    border-color: rgba(163, 230, 53, 0.7);
+    animation: moonAudioPulse 1.6s ease-out infinite;
+}
+
+/* Museum Plaque Styles */
+.museum-plaque {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 55%;
+    min-width: 280px;
+    max-width: 480px;
+    height: 40px;
+    background: linear-gradient(135deg, 
+        #3d2f1f 0%, 
+        #5d4e37 20%, 
+        #6b5a3d 40%, 
+        #8b6914 60%, 
+        #6b5a3d 80%, 
+        #5d4e37 100%);
+    border: 2px solid #8b6914;
+    border-top: 3px solid #d4af37;
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.8),
+        inset 0 2px 4px rgba(255, 255, 255, 0.15),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    border-radius: 6px;
+}
+
+.museum-plaque::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #3a4403 20%, 
+        #1a1e18 50%, 
+        #816b23 80%, 
+        transparent 100%);
+    box-shadow: 0 2px 4px rgba(212, 175, 55, 0.5);
+}
+
+.museum-plaque-text {
+    font-family: 'Roboto Slab', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #88B871;
+    text-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(42, 73, 2, 0.89);
+    letter-spacing: 0.8px;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Responsive adjustments for museum plaque */
+@media (max-width: 768px) {
+    .museum-plaque {
+        width: 70%;
+        min-width: 240px;
+        height: 42px;
+        bottom: 10px;
+        padding: 0 15px;
+    }
+    
+    .museum-plaque-text {
+        font-size: 14px;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* Very small phones: plaque must not force horizontal overflow */
+@media (max-width: 420px) {
+    .museum-plaque {
+        width: 92%;
+        min-width: 0;
+        max-width: 92%;
+        height: auto;
+        padding: 8px 10px;
+        bottom: 10px;
+    }
+    .museum-plaque-text {
+        font-size: 12px;
+        letter-spacing: 0.3px;
+        white-space: normal;
+        line-height: 1.2;
+    }
+}
+
+/* .picture-frame-image:hover {
+    transform: scale(1.01);
+    box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.8),
+        inset 0 0 0 2px rgba(0, 0, 0, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+} */
+
+/* Responsive adjustments for frame */
+@media (max-width: 768px) {
+    .picture-frame {
+        padding: 18px;
+        transform: perspective(800px) rotateX(1deg);
+    }
+    
+    .picture-frame::before {
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+    }
+    
+    .picture-frame-inner {
+        padding: 14px;
+    }
+    
+    .picture-frame-image {
+        max-width: 100%;
+    }
+}
+
+/* Gallery Wrapper */
+.gallery-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Gallery Scroll Container */
+.gallery-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.gallery-scroll-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+    gap: 1.5rem;
+    width: max-content;
+    padding: 0 1rem;
+}
+
+.gallery-grid > * {
+    width: 250px;
+}
+
+@media (min-width: 1024px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, minmax(280px, 1fr));
+    }
+    
+    .gallery-grid > * {
+        width: 280px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, minmax(300px, 1fr));
+    }
+    
+    .gallery-grid > * {
+        width: 300px;
+    }
+}
+
+/* Gallery Navigation Buttons */
+.gallery-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(148, 163, 184, 0.3);
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.gallery-nav-btn:hover {
+    background: rgba(15, 23, 42, 0.9);
+    border-color: rgba(163, 230, 53, 0.5);
+    color: #a3e635;
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.gallery-nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.gallery-nav-left {
+    left: 1rem;
+}
+
+.gallery-nav-right {
+    right: 1rem;
+}
+
+.gallery-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.gallery-nav-btn:disabled:hover {
+    transform: translateY(-50%);
+    background: rgba(15, 23, 42, 0.7);
+    border-color: rgba(148, 163, 184, 0.3);
+    color: #f8fafc;
+}
+
+@media (max-width: 1024px) {
+    .gallery-nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .gallery-nav-left {
+        left: 0.5rem;
+    }
+    
+    .gallery-nav-right {
+        right: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .gallery-nav-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Extra-small phones: slightly narrower gallery cards so less horizontal scrolling */
+@media (max-width: 640px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, minmax(210px, 1fr));
+        gap: 1rem;
+        padding: 0 0.75rem;
+    }
+    .gallery-grid > * {
+        width: 210px;
+    }
+}
+
+@media (max-width: 420px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, minmax(190px, 1fr));
+    }
+    .gallery-grid > * {
+        width: 190px;
+    }
+}
