@@ -169,11 +169,12 @@ function navigateModal(delta) {
     updateModalNavButtons();
 }
 
-function openImageInNewWindowFullscreen(imageUrl, title = '', slides = [], startIndex = 0) {
+function openImageInNewWindowFullscreen(imageUrl, title = '', slides = [], startIndex = 0, autoStartSlideshow = false) {
     if (!imageUrl) return;
     const safeTitle = (title || '').toString().replace(/[<>]/g, '');
     const slidesSafe = Array.isArray(slides) ? slides : [];
     const initialIndex = Number.isFinite(startIndex) ? startIndex : 0;
+    const shouldAutoStart = !!autoStartSlideshow;
 
     // Безопасно встраиваем JSON в <script> (не ломаемся на "<")
     const slidesJson = JSON.stringify(slidesSafe).replace(/</g, '\\u003c');
@@ -255,6 +256,7 @@ function openImageInNewWindowFullscreen(imageUrl, title = '', slides = [], start
   <script>
     const slides = ${slidesJson};
     let idx = ${indexJson};
+    const autoStartSlideshow = ${JSON.stringify(shouldAutoStart)};
     const img = document.getElementById('viewerImg');       
     const btn = document.getElementById('slideshowBtn');
     const captionTitle = document.getElementById('captionTitle');
@@ -367,6 +369,7 @@ function openImageInNewWindowFullscreen(imageUrl, title = '', slides = [], start
 
     // Инициализируем текущий кадр, если список передан
     if (slides.length) show(idx);
+    if (autoStartSlideshow && slides.length > 1) startSlideshow();
   </script>
 </body>
 </html>`;
@@ -379,6 +382,40 @@ function openImageInNewWindowFullscreen(imageUrl, title = '', slides = [], start
     // Освобождаем Blob URL позже (не сразу, чтобы вкладка успела загрузиться)
     setTimeout(() => URL.revokeObjectURL(blobUrl), 60_000);
 }
+
+// Ссылка "Слайдшоу" в шапке страницы: открывает тот же viewer в новой вкладке.
+// Стартуем с "главной" картины, а список слайдов берём из featured + загруженной галереи.
+window.openSlideshowFromHeader = function openSlideshowFromHeader() {
+    try {
+        if (!modalImagesList || modalImagesList.length === 0) {
+            rebuildModalImagesList();
+        }
+        // На случай, если галерея уже загрузилась после первого rebuild — перестроим ещё раз
+        rebuildModalImagesList();
+
+        const base = window.location.href;
+        const slides = (modalImagesList || [])
+            .map((it) => ({
+                src: it && it.path ? new URL(it.path, base).href : '',
+                title: it && it.name ? it.name : ''
+            }))
+            .filter((it) => it.src);
+
+        if (!slides.length) return;
+
+        const startIndex = 0;
+        const first = slides[startIndex];
+        openImageInNewWindowFullscreen(
+            first.src,
+            first.title || 'Слайдшоу',
+            slides,
+            startIndex,
+            true
+        );
+    } catch (e) {
+        console.warn('Не удалось открыть слайдшоу:', e);
+    }
+};
 
 function openModal(imageSrc, title) {
     const modal = document.getElementById('imageModal');
